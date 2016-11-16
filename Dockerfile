@@ -1,6 +1,10 @@
 FROM alpine:latest
 MAINTAINER leafney "babycoolzx@126.com"
 
+ENV RPC_LISTEN_PORT 6800
+ENV BT_LISTEN_PORT 51413
+ENV DHT_LISTEN_PORT 51415
+
 RUN apk add --no-cache aria2 \
 	&& adduser -D aria2 \
 	&& mkdir -p /etc/aria2 \
@@ -24,6 +28,6 @@ VOLUME /aria2down
 RUN chown -R aria2:aria2 /aria2down \
 	&& chown -R aria2:aria2 /etc/aria2
 
-EXPOSE 6800
+EXPOSE $RPC_LISTEN_PORT $BT_LISTEN_PORT $DHT_LISTEN_PORT
 
 CMD ["gosu","aria2","aria2c", "--conf-path=/etc/aria2/aria2.conf"]
